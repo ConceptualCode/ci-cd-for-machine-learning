@@ -29,22 +29,21 @@ def train_model():
 
     # tokenize data
     dataset = dataset.map(lambda x: tokenizer(x['tweet'], padding="max_length", truncation=True), batched=True)
-    
-    dataset = dataset.rename_column("label", "labels")
 
+    dataset = dataset.rename_column("label", "labels")
 
     dataset.set_format("torch", columns=["input_ids", "attention_mask", "labels"])
 
-    # Define training arguments
+
     training_args = TrainingArguments(
     output_dir="./results",
     evaluation_strategy="steps",
     save_strategy="steps",  
-    learning_rate=2e-5,
+    learning_rate=1e-5,
     per_device_train_batch_size=16,
     per_device_eval_batch_size=16,
-    max_steps=1000,
-    eval_steps=50,
+    max_steps=3000,
+    # eval_steps=50,
     weight_decay=0.01,
     #logging_dir='./logs_nc',
     logging_strategy='steps',
@@ -54,8 +53,6 @@ def train_model():
     metric_for_best_model='eval_loss',
     greater_is_better=False,
     warmup_steps=500,
-    do_train=True,
-    do_eval=True
 )
 
     # Initialize the Trainer
@@ -65,7 +62,7 @@ def train_model():
         train_dataset=dataset['train'],
         eval_dataset=dataset['validation'],
         tokenizer=tokenizer,
-        compute_metrics=compute_metrics
+        # compute_metrics=compute_metrics
     )
 
     trainer.train()
