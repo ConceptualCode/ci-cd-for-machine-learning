@@ -2,10 +2,14 @@ import torch
 from transformers import RobertaForSequenceClassification, RobertaTokenizer, Trainer, TrainingArguments
 from datasets import load_dataset, DatasetDict
 from evaluation import compute_metrics
+import json
 
 
 
 def train_model():
+    # Load best hyperparameters from file
+    with open("best_hyperparameters.json", "r") as f:
+        best_params = json.load(f)
 
     #check if CUDA is available
     if not torch.cuda.is_available():
@@ -21,14 +25,14 @@ def train_model():
 
     num_labels = len(set(dataset['train']['label']))
     
-    model_name = "checkpoint-17000"
+    model_name = "checkpoint-1520000"
     tokenizer = RobertaTokenizer.from_pretrained(model_name)
     model = RobertaForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
 
     model.to(device)
 
     # tokenize data
-    dataset = dataset.map(lambda x: tokenizer(x['tweet'], padding="max_length", truncation=True), batched=True)
+    dataset = dataset.map(lambda x: tokenizer(x['tweet'], padding="max_length", max_length=512, truncation=True), batched=True)
 
     dataset = dataset.rename_column("label", "labels")
 
@@ -37,22 +41,17 @@ def train_model():
 
     training_args = TrainingArguments(
     output_dir="./results",
-    evaluation_strategy="steps",
-    save_strategy="steps",  
-    learning_rate=1e-5,
-    per_device_train_batch_size=16,
-    per_device_eval_batch_size=16,
-    max_steps=3000,
-    # eval_steps=50,
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    num_train_epochs=best_params['num_train_epochs'],
+    learning_rate=best_params['learning_rate'],
+    per_device_train_batch_size=16, #best_params['per_device_batch_size'],
     weight_decay=0.01,
-    #logging_dir='./logs_nc',
-    logging_strategy='steps',
-    logging_steps=100,
-    save_total_limit=2,
+    logging_dir='./logs',
+    save_total_limit=3,
     load_best_model_at_end=True,
     metric_for_best_model='eval_loss',
     greater_is_better=False,
-    warmup_steps=500,
 )
 
     # Initialize the Trainer
@@ -62,7 +61,7 @@ def train_model():
         train_dataset=dataset['train'],
         eval_dataset=dataset['validation'],
         tokenizer=tokenizer,
-        # compute_metrics=compute_metrics
+        compute_metrics=compute_metrics
     )
 
     trainer.train()
