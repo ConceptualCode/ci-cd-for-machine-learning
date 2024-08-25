@@ -1,0 +1,73 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python data_preprocess.py --input-dir data/raw/shmuhammad_AfriSenti-twitter-sentiment/
+      --output-dir /home/tonyai/CICD-ML/preprocessed_data/
+    deps:
+    - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_test.csv
+      hash: md5
+      md5: 5de3d43353162ed282b5ead7c81ea48f
+      size: 196915
+    - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_train.csv
+      hash: md5
+      md5: 790c5ff01020a0db640b6a636bd1f9de
+      size: 802976
+    - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_validation.csv
+      hash: md5
+      md5: 78a80987b27380cfe6ba4d040708df67
+      size: 144928
+    - path: data_preprocess.py
+      hash: md5
+      md5: 150f0201c7419fae85c96d3a298f5e28
+      size: 3002
+    outs:
+    - path: preprocessed_data/test.csv
+      hash: md5
+      md5: b442abff3ef82b41d3ae88f2554f1112
+      size: 195080
+    - path: preprocessed_data/train.csv
+      hash: md5
+      md5: 9e29377a2b380f4e6668134e1635bff2
+      size: 533702
+    - path: preprocessed_data/val.csv
+      hash: md5
+      md5: f0bbe352ca21281f3bf58e37e73252b9
+      size: 96259
+  train:
+    cmd: python train.py
+    deps:
+    - path: best_hyperparameters.json
+      hash: md5
+      md5: 66a88b64ad9393a68380a9812b24204e
+      size: 92
+    - path: evaluation.py
+      hash: md5
+      md5: b6d7016a46c5348326df7383c7a9d59a
+      size: 2518
+    - path: preprocessed_data/test.csv
+      hash: md5
+      md5: b442abff3ef82b41d3ae88f2554f1112
+      size: 195080
+    - path: preprocessed_data/train.csv
+      hash: md5
+      md5: 9e29377a2b380f4e6668134e1635bff2
+      size: 533702
+    - path: preprocessed_data/val.csv
+      hash: md5
+      md5: f0bbe352ca21281f3bf58e37e73252b9
+      size: 96259
+    - path: train.py
+      hash: md5
+      md5: f9ea9d0de511c101bf53d19b7baaa91c
+      size: 3564
+    outs:
+    - path: models/fine_tuned_igbo_sentiment/
+      hash: md5
+      md5: 4061c2e549ee26963d23d2a7994ef638.dir
+      size: 335407213
+      nfiles: 6
+    - path: results/
+      hash: md5
+      md5: bb970cef8f682e67e3815fd6183bb52e.dir
+      size: 3009456856
+      nfiles: 35
