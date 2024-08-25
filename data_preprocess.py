@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+import os
 
 def clean_text(text):
     # Remove URLs
@@ -49,16 +50,29 @@ def preprocess_dataset(df, text_col='tweet', label_col='label'):
     return df
 
 if __name__ == "__main__":
-    train_df = pd.read_csv('data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_train.csv')
-    test_df = pd.read_csv('data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_test.csv')
-    val_df = pd.read_csv('data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_validation.csv')
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Preprocess datasets.")
+    parser.add_argument('--input-dir', type=str, required=True, help="Directory containing the raw datasets")
+    parser.add_argument('--output-dir', type=str, required=True, help="Directory to save the processed datasets")
+    
+    args = parser.parse_args()
+
+    input_dir = args.input_dir
+    output_dir = args.output_dir
+
+    train_df = pd.read_csv(os.path.join(input_dir, 'ibo_train.csv'))
+    test_df = pd.read_csv(os.path.join(input_dir, 'ibo_test.csv'))
+    val_df = pd.read_csv(os.path.join(input_dir, 'ibo_validation.csv'))
 
     preprocessed_train_df = preprocess_dataset(train_df)
     preprocessed_test_df = preprocess_dataset(test_df)
     preprocessed_val_df = preprocess_dataset(val_df)
 
-    preprocessed_train_df.to_csv('/home/tonyai/CICD-ML/preprocessed_data/train.csv', index=False)
-    preprocessed_test_df.to_csv('/home/tonyai/CICD-ML/preprocessed_data/test.csv', index=False)
-    preprocessed_val_df.to_csv('/home/tonyai/CICD-ML/preprocessed_data/val.csv', index=False)
+    os.makedirs(output_dir, exist_ok=True)
+    
+    preprocessed_train_df.to_csv(os.path.join(output_dir, 'train.csv'), index=False)
+    preprocessed_test_df.to_csv(os.path.join(output_dir, 'test.csv'), index=False)
+    preprocessed_val_df.to_csv(os.path.join(output_dir, 'val.csv'), index=False)
 
     print("Preprocessing complete. Datasets saved.")
