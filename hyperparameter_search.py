@@ -47,6 +47,7 @@ def objective(trial):
         num_train_epochs=num_train_epochs,
         weight_decay=0.01,
         logging_dir="./pm_search_logs",
+        save_total_limit=1
     )
 
     # Initialize Training
@@ -71,7 +72,7 @@ def objective(trial):
         return eval_results['eval_accuracy']
 
 if __name__ =="__main__":
-    study = optuna.create_study(direction='maximize')
+    study = optuna.create_study(direction='maximize', pruner=optuna.pruners.MedianPruner())
     study.optimize(objective, n_trials=5)
 
     with open("best_hyperparameters.json", "w") as f:
