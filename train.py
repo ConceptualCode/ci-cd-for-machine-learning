@@ -3,7 +3,38 @@ from transformers import RobertaForSequenceClassification, RobertaTokenizer, Tra
 from datasets import load_dataset, DatasetDict
 from evaluation import compute_metrics
 import json
+import matplotlib.pyplot as plt
 
+
+def save_metrics(trainer, output_dir="./results"):
+    metrics = trainer.evaluate()
+    with open(f"{output_dir}/metrics.txt", "w") as f:
+        f.write(str(metrics))
+    
+    # Example plot (if applicable)
+    plt.plot(metrics['eval_loss'])
+    plt.savefig(f"{output_dir}/plots.png")
+
+
+import matplotlib.pyplot as plt
+
+def plot_metrics(trainer):
+    # Assuming 'trainer' has a history of metrics across epochs
+    metrics_history = trainer.state.log_history  # This is a list of dicts
+    
+    eval_losses = [entry['eval_loss'] for entry in metrics_history if 'eval_loss' in entry]
+    
+    if eval_losses:
+        epochs = range(1, len(eval_losses) + 1)
+        plt.plot(epochs, eval_losses, 'bo-', label='Evaluation loss')
+        plt.title('Evaluation loss across epochs')
+        plt.xlabel('Epochs')
+        plt.ylabel('Loss')
+        plt.legend()
+        plt.savefig('./results/plots.png')
+        plt.close()
+    else:
+        print("No evaluation losses found in the training logs.")
 
 
 def train_model():
@@ -48,7 +79,7 @@ def train_model():
     per_device_train_batch_size=16, #best_params['per_device_batch_size'],
     weight_decay=0.01,
     logging_dir='./logs',
-    save_total_limit=3,
+    save_total_limit=1,
     load_best_model_at_end=True,
     metric_for_best_model='eval_loss',
     greater_is_better=False,
@@ -65,6 +96,8 @@ def train_model():
     )
 
     trainer.train()
+    save_metrics(trainer)
+    plot_metrics(trainer)
 
     # Save the fine-tuned model and tokenizer
     model.save_pretrained("models/fine_tuned_igbo_sentiment")
