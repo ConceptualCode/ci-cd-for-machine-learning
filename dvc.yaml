@@ -1,0 +1,35 @@
+stages:
+  preprocess:
+    cmd: python data_preprocess.py --input-dir data/raw/shmuhammad_AfriSenti-twitter-sentiment/
+      --output-dir /home/tonyai/CICD-ML/preprocessed_data/
+    deps:
+    - data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_test.csv
+    - data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_train.csv
+    - data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_validation.csv
+    - data_preprocess.py
+    outs:
+    - preprocessed_data/test.csv
+    - preprocessed_data/train.csv
+    - preprocessed_data/val.csv
+  hyperparameter_search:
+    cmd: python hyperparameter_search.py
+    deps:
+    - evaluation.py
+    - hyperparameter_search.py
+    - preprocessed_data/train.csv
+    - preprocessed_data/val.csv
+    outs:
+    - best_hyperparameters.json
+  train:
+    cmd: python train.py
+    deps:
+    - best_hyperparameters.json
+    - evaluation.py
+    - preprocessed_data/test.csv
+    - preprocessed_data/train.csv
+    - preprocessed_data/val.csv
+    - train.py
+    outs:
+    - models/fine_tuned_igbo_sentiment/
+    - results/
+
