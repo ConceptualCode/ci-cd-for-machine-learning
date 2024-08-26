@@ -33,13 +33,37 @@ stages:
       hash: md5
       md5: f0bbe352ca21281f3bf58e37e73252b9
       size: 96259
+  hyperparameter_search:
+    cmd: python hyperparameter_search.py
+    deps:
+    - path: evaluation.py
+      hash: md5
+      md5: b6d7016a46c5348326df7383c7a9d59a
+      size: 2518
+    - path: hyperparameter_search.py
+      hash: md5
+      md5: 903ae3636d3f9f0164118156f6f22eea
+      size: 2909
+    - path: preprocessed_data/train.csv
+      hash: md5
+      md5: 9e29377a2b380f4e6668134e1635bff2
+      size: 533702
+    - path: preprocessed_data/val.csv
+      hash: md5
+      md5: f0bbe352ca21281f3bf58e37e73252b9
+      size: 96259
+    outs:
+    - path: best_hyperparameters.json
+      hash: md5
+      md5: a6734e7cb584935e06942702a7ce3685
+      size: 93
   train:
     cmd: python train.py
     deps:
     - path: best_hyperparameters.json
       hash: md5
-      md5: 66a88b64ad9393a68380a9812b24204e
-      size: 92
+      md5: a6734e7cb584935e06942702a7ce3685
+      size: 93
     - path: evaluation.py
       hash: md5
       md5: b6d7016a46c5348326df7383c7a9d59a
@@ -58,16 +82,16 @@ stages:
       size: 96259
     - path: train.py
       hash: md5
-      md5: f9ea9d0de511c101bf53d19b7baaa91c
+      md5: ebfd738adcbb7d3450dbe5f9e57bde5e
       size: 3564
     outs:
     - path: models/fine_tuned_igbo_sentiment/
       hash: md5
-      md5: 4061c2e549ee26963d23d2a7994ef638.dir
+      md5: f76756fef338129039deb7bdd8e5d0d9.dir
       size: 335407213
       nfiles: 6
     - path: results/
       hash: md5
-      md5: bb970cef8f682e67e3815fd6183bb52e.dir
-      size: 3009456856
-      nfiles: 35
+      md5: 403261b9b5d98aaa3cb0e21b4b7d1094.dir
+      size: 1003174229
+      nfiles: 13
