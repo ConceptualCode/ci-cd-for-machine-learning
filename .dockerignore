@@ -1,0 +1,12 @@
+# ignore everything by default
+**
+
+# But don't ignore the Dockerfile itself
+!Dockerfile
+
+# Include the app.py
+!app.py
+!data_preprocess.py
+!requirements.txt
+
+!models/
