@@ -21,6 +21,7 @@ jobs:
           --cloud-type=p2.xlarge \
           --cloud-hdd-size=64 \
           --labels=cml-gpu
+          --repo-token ${{ secrets.GITHUB_TOKEN }}
   train-and-report:
     runs-on: [self-hosted, cml-gpu]
     needs: launch-runner
