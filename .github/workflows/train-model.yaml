@@ -1,6 +1,6 @@
 name: CML CI/CD Pipeline
 on:
-  push:
+  pull_request:
     branches:
       - main
 jobs:
@@ -39,7 +39,7 @@ jobs:
         run: |
           git show origin/main:image.png > image-main.png
           cat <<EOF > report.md
-          # Style transfer
+          # Model Performance Report
           ## Workspace vs. Main
           ![](./image.png "Workspace") ![](./image-main.png "Main")
           ## Training metrics
