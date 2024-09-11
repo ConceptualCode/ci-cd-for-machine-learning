@@ -1,4 +1,10 @@
 name: CML CI/CD Pipeline
+
+permissions:
+  actions: write
+  contents: write
+  administration: write
+
 on:
   pull_request:
     branches:
