@@ -18,7 +18,7 @@ jobs:
       - uses: iterative/setup-cml@v1
       - name: Deploy runner on AWS EC2
         env:
-          REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          REPO_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
@@ -28,7 +28,7 @@ jobs:
           --cloud-type=p2.xlarge \
           --cloud-hdd-size=64 \
           --labels=cml-gpu
-          --repo-token ${{ secrets.GITHUB_TOKEN }}
+          --repo-token ${{ secrets.PERSONAL_ACCESS_TOKEN }}
   train-and-report:
     runs-on: [self-hosted, cml-gpu]
     needs: launch-runner
@@ -57,7 +57,7 @@ jobs:
           EOF
           cml comment create report.md
         env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
   build-and-deploy:
     runs-on: ubuntu-latest
     needs: train-and-report
