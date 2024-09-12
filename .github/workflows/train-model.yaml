@@ -3,7 +3,8 @@ name: CML CI/CD Pipeline
 permissions:
   actions: write
   contents: write
-  administration: write
+  packages: write
+  pull-requests: write
 
 on:
   pull_request:
