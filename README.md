@@ -1,2 +1,31 @@
-## Objective
- The goal is to develop a model that accurately classifies Igbo text data into sentiment categories such as positive, negative, or neutral. This project demonstrates the process of data ingestion, preprocessing, model training, evaluation, and deployment within a CI/CD pipeline, utilizing tools such as GitHub Actions, DVC, and CML.
+# CI/CD Pipeline for Machine Learning using Docker, CML, and AWS
+
+## Project Overview
+This repository demonstrates the implementation of a CI/CD pipeline for a machine learning project. The pipeline automates key steps in the ML lifecycle, including data injesttion, data preprocessing, hyperparameter tuning, model training, evaluation, and deployment to AWS ECS, using Docker and GPU acceleration. We use modern tools like CML, DVC, and GitHub Actions to orchestrate the process.
+
+By adopting this pipeline, we ensure that the machine learning model is consistently updated and retrained when there are data or code changes, providing an efficient and scalable solution for continuous integration and delivery in machine learning projects.
+
+## Features
+
+#### Data Versioning with DVC:
+- Automatically tracks changes in datasets, triggering retraining when new data is added or existing data is modified.
+
+### Model Training and Evaluation:
+- Utilizes **CML** to train the machine learning model, followed by hyperparameter tuning using **Optuna**.
+- Automatically generates metrics like accuracy, precision, recall, and F1 score.
+
+### Docker for Consistent Environments:
+- Ensures consistent environments across development, testing, and production by containerizing the project with Docker.
+- Supports **GPU acceleration** for faster model training.
+
+### Deployment on AWS:
+- The trained model is deployed to **AWS ECS** (Elastic Container Service), ensuring scalable and highly available inference.
+
+## Technologies Used
+
+- **Python**: For model development and scripting.
+- **Docker**: For containerizing the machine learning environment.
+- **GitHub Actions**: Automates CI/CD workflows, including building, testing, and deployment.
+- **CML (Continuous Machine Learning)**: Automates the machine learning workflow.
+- **DVC (Data Version Control)**: Tracks and versions datasets and models.
+- **AWS ECS**: Deploys the Dockerized machine learning model for scalable inference.
