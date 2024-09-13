@@ -29,6 +29,7 @@ By adopting this pipeline, we ensure that the machine learning model is consiste
 ## Technologies Used
 
 - **Python**: For model development and scripting.
+- **Flask**: To serve the trained machine learning model via a RESTful API.
 - **Docker**: For containerizing the machine learning environment.
 - **GitHub Actions**: Automates CI/CD workflows, including building, testing, and deployment.
 - **CML (Continuous Machine Learning)**: Automates the machine learning workflow.
