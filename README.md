@@ -18,6 +18,11 @@ By adopting this pipeline, we ensure that the machine learning model is consiste
 - Ensures consistent environments across development, testing, and production by containerizing the project with Docker.
 - Supports **GPU acceleration** for faster model training.
 
+### Flask API for Model Inference:
+- A **Flask API** is implemented to serve the trained model for real-time inference.
+- The API allows users to send HTTP POST requests with text inputs, which are preprocessed using the same pipeline used during training.
+- The API responds with the sentiment predictions, along with probabilities and class labels.
+
 ### Deployment on AWS:
 - The trained model is deployed to **AWS ECS** (Elastic Container Service), ensuring scalable and highly available inference.
 
