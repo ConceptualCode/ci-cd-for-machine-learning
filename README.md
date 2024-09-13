@@ -1,4 +1,4 @@
-# CI/CD Pipeline for Machine Learning using Docker, CML, and AWS
+# CI/CD Pipeline for Machine Learning (Igbo NLP) using DVC, Docker, CML, AWS, and GITHUB Actions
 
 ## Project Overview
 This repository demonstrates the implementation of a CI/CD pipeline for a machine learning project. The pipeline automates key steps in the ML lifecycle, including data injesttion, data preprocessing, hyperparameter tuning, model training, evaluation, and deployment to AWS ECS, using Docker and GPU acceleration. We use modern tools like CML, DVC, and GitHub Actions to orchestrate the process.
