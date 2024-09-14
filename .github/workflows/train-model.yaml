@@ -25,7 +25,7 @@ jobs:
           cml runner launch \
           --cloud=aws \
           --cloud-region=us-west \
-          --cloud-type=p2.xlarge \
+          --cloud-type=g4dn.xlarge \
           --cloud-hdd-size=64 \
           --labels=cml-gpu \
           --cloud-aws-subnet-id=subnet-0b0a8d6b4dac1e844
