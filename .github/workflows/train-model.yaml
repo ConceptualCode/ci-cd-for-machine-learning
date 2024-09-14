@@ -27,7 +27,8 @@ jobs:
           --cloud-region=us-west \
           --cloud-type=p2.xlarge \
           --cloud-hdd-size=64 \
-          --labels=cml-gpu
+          --labels=cml-gpu \
+          --cloud-subnet=subnet-0b0a8d6b4dac1e844
           --repo-token ${{ secrets.PERSONAL_ACCESS_TOKEN }}
   train-and-report:
     runs-on: [self-hosted, cml-gpu]
