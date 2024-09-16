@@ -46,16 +46,16 @@ jobs:
           dvc repro
       - name: Create CML report
         run: |
-          git show origin/main:image.png > image-main.png
-          cat <<EOF > report.md
           # Model Performance Report
-          ## Workspace vs. Main
-          ![](./image.png "Workspace") ![](./image-main.png "Main")
           ## Training metrics
           $(dvc params diff main --show-md)
           ## GPU info
           $(cat gpu_info.txt)
-          EOF
+          # Print metrics of the current branch
+          dvc metrics show --md >> report.md
+          # Compare metrics with the main branch
+          git fetch --prune
+          dvc metrics diff --md main >> report.md
           cml comment create report.md
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
