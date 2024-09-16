@@ -20,6 +20,7 @@ stages:
     - preprocessed_data/val.csv
     outs:
     - best_hyperparameters.json
+       cache:false
   train:
     cmd: python train.py
     deps:
@@ -32,4 +33,7 @@ stages:
     outs:
     - models/fine_tuned_igbo_sentiment/
     - results/
+    metrics:
+    - evaluation_results.json
+    #  cache:false
 
