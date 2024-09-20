@@ -17,11 +17,11 @@ jobs:
     timeout-minutes: 50400 # 35 days
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install DVC
         run: |
-          pip install dvc
-        
+          sudo apt-get install python3-pip -y
+          pip install dvc==3.53.2  # Install the specific version of DVC
+      - name: Verify DVC Installation
+        run: dvc --version
       - name: Train model
         run: |
           dvc pull data
