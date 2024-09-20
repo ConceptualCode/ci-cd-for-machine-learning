@@ -6,20 +6,20 @@ stages:
     deps:
     - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_test.csv
       hash: md5
-      md5: 5de3d43353162ed282b5ead7c81ea48f
-      size: 196915
+      md5: 6f0ef4ea1b5b93f3e86e31ba20461991
+      size: 200598
     - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_train.csv
       hash: md5
-      md5: 790c5ff01020a0db640b6a636bd1f9de
-      size: 802976
+      md5: 68605a4f315f94acfd3e81b5e1f126d1
+      size: 813169
     - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_validation.csv
       hash: md5
-      md5: 78a80987b27380cfe6ba4d040708df67
-      size: 144928
+      md5: 5ec93ffb7f3a2d9a5f400065a51df914
+      size: 146770
     - path: data_preprocess.py
       hash: md5
-      md5: 150f0201c7419fae85c96d3a298f5e28
-      size: 3002
+      md5: 7bd9583144f648bb5a901adaa814d51d
+      size: 3079
     outs:
     - path: preprocessed_data/test.csv
       hash: md5
@@ -42,8 +42,8 @@ stages:
       size: 2518
     - path: hyperparameter_search.py
       hash: md5
-      md5: 903ae3636d3f9f0164118156f6f22eea
-      size: 2909
+      md5: ea91e53bec05a062d10e52f9bd0ddbf1
+      size: 2988
     - path: preprocessed_data/train.csv
       hash: md5
       md5: 9e29377a2b380f4e6668134e1635bff2
@@ -55,8 +55,8 @@ stages:
     outs:
     - path: best_hyperparameters.json
       hash: md5
-      md5: a6734e7cb584935e06942702a7ce3685
-      size: 93
+      md5: 6a2647c3dc3461e703567181a1e23291
+      size: 92
   train:
     cmd: python train.py
     deps:
