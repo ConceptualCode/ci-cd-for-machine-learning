@@ -7,7 +7,7 @@ permissions:
   pull-requests: write
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -15,26 +15,39 @@ jobs:
   train-and-report:
     runs-on: ubuntu-latest 
     timeout-minutes: 50400 # 35 days
+    
     steps:
+      # Step 1: Checkout the code
       - uses: actions/checkout@v3
+
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.10'
+
+      # Step 3: Install DVC and Python dependencies
+      - name: Install DVC and dependencies
         run: |
           sudo apt-get update
           sudo apt-get install python3-pip -y
           python3 -m pip install --upgrade pip  # Ensure pip is updated
           pip install dvc==3.53.2  # Install DVC version 3.53.2
+          pip install -r requirements.txt  # Install project dependencies
+
+      # Step 4: Verify DVC Installation
       - name: Verify DVC Installation
         run: |
           dvc --version
           which dvc
+
+      # Step 5: Train model
       - name: Train model
         run: |
-          dvc pull data
-          pip install -r requirements.txt
-          dvc repro
+          dvc pull data  # Pull DVC tracked data
+          dvc repro  # Run the DVC pipeline
+
+      # Step 6: Create CML report
       - name: Create CML report
         run: |
           # Model Performance Report
