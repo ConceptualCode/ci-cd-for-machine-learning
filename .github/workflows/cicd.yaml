@@ -18,10 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         run: |
+          sudo apt-get update
           sudo apt-get install python3-pip -y
-          pip install dvc==3.53.2  # Install the specific version of DVC
+          python3 -m pip install --upgrade pip  # Ensure pip is updated
+          pip install dvc==3.53.2  # Install DVC version 3.53.2
       - name: Verify DVC Installation
-        run: dvc --version
+        run: |
+          dvc --version
+          which dvc
       - name: Train model
         run: |
           dvc pull data
