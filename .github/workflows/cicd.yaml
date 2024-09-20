@@ -44,7 +44,7 @@ jobs:
       # Step 5: Train model
       - name: Train model
         run: |
-          dvc pull data  # Pull DVC tracked data
+          dvc pull  # Pull DVC tracked data
           dvc repro  # Run the DVC pipeline
 
       # Step 6: Create CML report
