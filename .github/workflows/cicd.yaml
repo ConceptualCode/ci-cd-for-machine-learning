@@ -36,19 +36,28 @@ jobs:
           pip install 'dvc[s3]==3.53.2'  # Install DVC with S3 support
           pip install -r requirements.txt  # Install project dependencies
 
-      # Step 4: Verify DVC Installation
+        # Step 4: Set AWS Credentials
+      - name: Set AWS credentials
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      # Step 5: Verify DVC Installation
       - name: Verify DVC Installation
         run: |
           dvc --version
           which dvc
 
-      # Step 5: Train model
+      # Step 6: Train model
       - name: Train model
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          dvc pull  # Pull DVC tracked data
+          dvc pull  # Pull DVC tracked data from S3
           dvc repro  # Run the DVC pipeline
 
-      # Step 6: Create CML report
+      # Step 7: Create CML report
       - name: Create CML report
         run: |
           # Model Performance Report
