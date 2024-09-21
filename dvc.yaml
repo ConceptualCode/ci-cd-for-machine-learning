@@ -32,8 +32,15 @@ stages:
     - train.py
     outs:
     - models/fine_tuned_igbo_sentiment/
-    - results/
-    metrics:
+    - results/checkpoint-1274/
+    # - evaluation_results.json
+    - results/metrics.txt
+  evaluation:
+    cmd: python evaluation.py
+    deps: 
+    - models/fine_tuned_igbo_sentiment/
+    - preprocessed_data/test.csv
+    outs:
     - evaluation_results.json
     #  cache:false
 
