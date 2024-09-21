@@ -38,8 +38,8 @@ stages:
     deps:
     - path: evaluation.py
       hash: md5
-      md5: b6d7016a46c5348326df7383c7a9d59a
-      size: 2518
+      md5: e28b3958102028363b0e7f33d9d5a284
+      size: 2536
     - path: hyperparameter_search.py
       hash: md5
       md5: ea91e53bec05a062d10e52f9bd0ddbf1
@@ -55,19 +55,19 @@ stages:
     outs:
     - path: best_hyperparameters.json
       hash: md5
-      md5: 6a2647c3dc3461e703567181a1e23291
+      md5: 35d995774b2276864d8127b001805b0a
       size: 92
   train:
     cmd: python train.py
     deps:
     - path: best_hyperparameters.json
       hash: md5
-      md5: a6734e7cb584935e06942702a7ce3685
-      size: 93
+      md5: 35d995774b2276864d8127b001805b0a
+      size: 92
     - path: evaluation.py
       hash: md5
-      md5: b6d7016a46c5348326df7383c7a9d59a
-      size: 2518
+      md5: e28b3958102028363b0e7f33d9d5a284
+      size: 2536
     - path: preprocessed_data/test.csv
       hash: md5
       md5: b442abff3ef82b41d3ae88f2554f1112
@@ -82,16 +82,37 @@ stages:
       size: 96259
     - path: train.py
       hash: md5
-      md5: ebfd738adcbb7d3450dbe5f9e57bde5e
-      size: 3564
+      md5: 1f9ce711e30662aac2b0ce2dc0ac80df
+      size: 3671
     outs:
     - path: models/fine_tuned_igbo_sentiment/
       hash: md5
-      md5: f76756fef338129039deb7bdd8e5d0d9.dir
+      md5: 74d569d4000351b32cc92bf84bf28dc0.dir
       size: 335407213
       nfiles: 6
-    - path: results/
+    - path: results/checkpoint-1274/
       hash: md5
-      md5: 403261b9b5d98aaa3cb0e21b4b7d1094.dir
-      size: 1003174229
-      nfiles: 13
+      md5: 80dc5c0d95c2b47f3f55a5000b475b65.dir
+      size: 1003143086
+      nfiles: 11
+    - path: results/metrics.txt
+      hash: md5
+      md5: 8f5ec2ba526782610eb193f3e8fd8e3a
+      size: 280
+  evaluation:
+    cmd: python evaluation.py
+    deps:
+    - path: models/fine_tuned_igbo_sentiment/
+      hash: md5
+      md5: 74d569d4000351b32cc92bf84bf28dc0.dir
+      size: 335407213
+      nfiles: 6
+    - path: preprocessed_data/test.csv
+      hash: md5
+      md5: b442abff3ef82b41d3ae88f2554f1112
+      size: 195080
+    outs:
+    - path: evaluation_results.json
+      hash: md5
+      md5: 8a33eb15ade8cac2b5fbdf98bf96c112
+      size: 307
