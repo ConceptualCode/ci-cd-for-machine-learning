@@ -36,6 +36,11 @@ stages:
   hyperparameter_search:
     cmd: python hyperparameter_search.py
     deps:
+    - path: checkpoint-1520000/
+      hash: md5
+      md5: 1ac65a407111f9e621ae2b1b17115132.dir
+      size: 1006179354
+      nfiles: 12
     - path: evaluation.py
       hash: md5
       md5: 699b2cdb50952244c6a1ec563bcdf4ad
@@ -55,15 +60,20 @@ stages:
     outs:
     - path: best_hyperparameters.json
       hash: md5
-      md5: e35cc6553f57b366595983f2f4f9715a
+      md5: eb1432d25e4bed5400906ad65530c12e
       size: 92
   train:
     cmd: python train.py
     deps:
     - path: best_hyperparameters.json
       hash: md5
-      md5: e35cc6553f57b366595983f2f4f9715a
+      md5: eb1432d25e4bed5400906ad65530c12e
       size: 92
+    - path: checkpoint-1520000/
+      hash: md5
+      md5: 1ac65a407111f9e621ae2b1b17115132.dir
+      size: 1006179354
+      nfiles: 12
     - path: evaluation.py
       hash: md5
       md5: 699b2cdb50952244c6a1ec563bcdf4ad
@@ -87,24 +97,24 @@ stages:
     outs:
     - path: models/fine_tuned_igbo_sentiment/
       hash: md5
-      md5: 554a270fd20286f237f28d8cc02d3fe4.dir
+      md5: 8ee18ab1f9acf421cd051c06c098b56e.dir
       size: 335407213
       nfiles: 6
     - path: results/checkpoint-1274/
       hash: md5
-      md5: 0be35d787430b64a5f1b0223a7ea8ab3.dir
-      size: 1003143084
+      md5: 9dc35a9a95c787a366a44822786e3989.dir
+      size: 1003143081
       nfiles: 11
     - path: results/metrics.txt
       hash: md5
-      md5: d0c8f0dbfb9fc1fd37420ab11dc96876
-      size: 279
+      md5: 6943121f4c648a0bca322916afb3923b
+      size: 281
   evaluation:
     cmd: python evaluation.py
     deps:
     - path: models/fine_tuned_igbo_sentiment/
       hash: md5
-      md5: 554a270fd20286f237f28d8cc02d3fe4.dir
+      md5: 8ee18ab1f9acf421cd051c06c098b56e.dir
       size: 335407213
       nfiles: 6
     - path: preprocessed_data/test.csv
@@ -114,5 +124,5 @@ stages:
     outs:
     - path: evaluation_results.json
       hash: md5
-      md5: 2574c1697b26ec59a9c838c3e19174e2
-      size: 306
+      md5: daaadfa7a86c9913c2d10a7c48e60c70
+      size: 305
