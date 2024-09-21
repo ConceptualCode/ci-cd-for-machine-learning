@@ -18,7 +18,7 @@ def objective(trial):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Suggest hyperparameters for this trial
     learning_rate = trial.suggest_loguniform('learning_rate', 1e-5, 5e-4)
-    num_train_epochs = trial.suggest_int('num_train_epochs', 1, 2)
+    num_train_epochs = trial.suggest_int('num_train_epochs', 1)
     per_device_batch_size = trial.suggest_categorical('per_device_batch_size', [8, 16, 32])
 
     # Load dataset and model
