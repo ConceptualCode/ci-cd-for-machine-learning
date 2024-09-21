@@ -15,6 +15,7 @@ stages:
     cmd: python hyperparameter_search.py
     deps:
     - evaluation.py
+    - checkpoint-1520000/
     - hyperparameter_search.py
     - preprocessed_data/train.csv
     - preprocessed_data/val.csv
@@ -25,6 +26,7 @@ stages:
     deps:
     - best_hyperparameters.json
     - evaluation.py
+    - checkpoint-1520000/
     - preprocessed_data/test.csv
     - preprocessed_data/train.csv
     - preprocessed_data/val.csv
