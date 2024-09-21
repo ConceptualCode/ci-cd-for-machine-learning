@@ -38,8 +38,8 @@ stages:
     deps:
     - path: evaluation.py
       hash: md5
-      md5: e28b3958102028363b0e7f33d9d5a284
-      size: 2536
+      md5: 699b2cdb50952244c6a1ec563bcdf4ad
+      size: 2552
     - path: hyperparameter_search.py
       hash: md5
       md5: ea91e53bec05a062d10e52f9bd0ddbf1
@@ -55,19 +55,19 @@ stages:
     outs:
     - path: best_hyperparameters.json
       hash: md5
-      md5: 35d995774b2276864d8127b001805b0a
+      md5: e35cc6553f57b366595983f2f4f9715a
       size: 92
   train:
     cmd: python train.py
     deps:
     - path: best_hyperparameters.json
       hash: md5
-      md5: 35d995774b2276864d8127b001805b0a
+      md5: e35cc6553f57b366595983f2f4f9715a
       size: 92
     - path: evaluation.py
       hash: md5
-      md5: e28b3958102028363b0e7f33d9d5a284
-      size: 2536
+      md5: 699b2cdb50952244c6a1ec563bcdf4ad
+      size: 2552
     - path: preprocessed_data/test.csv
       hash: md5
       md5: b442abff3ef82b41d3ae88f2554f1112
@@ -87,24 +87,24 @@ stages:
     outs:
     - path: models/fine_tuned_igbo_sentiment/
       hash: md5
-      md5: 74d569d4000351b32cc92bf84bf28dc0.dir
+      md5: 554a270fd20286f237f28d8cc02d3fe4.dir
       size: 335407213
       nfiles: 6
     - path: results/checkpoint-1274/
       hash: md5
-      md5: 80dc5c0d95c2b47f3f55a5000b475b65.dir
-      size: 1003143086
+      md5: 0be35d787430b64a5f1b0223a7ea8ab3.dir
+      size: 1003143084
       nfiles: 11
     - path: results/metrics.txt
       hash: md5
-      md5: 8f5ec2ba526782610eb193f3e8fd8e3a
-      size: 280
+      md5: d0c8f0dbfb9fc1fd37420ab11dc96876
+      size: 279
   evaluation:
     cmd: python evaluation.py
     deps:
     - path: models/fine_tuned_igbo_sentiment/
       hash: md5
-      md5: 74d569d4000351b32cc92bf84bf28dc0.dir
+      md5: 554a270fd20286f237f28d8cc02d3fe4.dir
       size: 335407213
       nfiles: 6
     - path: preprocessed_data/test.csv
@@ -114,5 +114,5 @@ stages:
     outs:
     - path: evaluation_results.json
       hash: md5
-      md5: 8a33eb15ade8cac2b5fbdf98bf96c112
-      size: 307
+      md5: 2574c1697b26ec59a9c838c3e19174e2
+      size: 306
