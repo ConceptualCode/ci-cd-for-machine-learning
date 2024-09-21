@@ -76,7 +76,7 @@ def objective(trial):
 
 if __name__ =="__main__":
     study = optuna.create_study(direction='maximize', pruner=optuna.pruners.MedianPruner())
-    study.optimize(objective, n_trials=5)
+    study.optimize(objective, n_trials=1)
 
     with open("best_hyperparameters.json", "w") as f:
         json.dump(study.best_params, f)
