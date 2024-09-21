@@ -56,7 +56,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          dvc pull --force  # Pull DVC tracked data from S3
+          dvc pull  # Pull DVC tracked data from S3
           dvc repro  # Run the DVC pipeline
 
       # Step 7: Create CML report
