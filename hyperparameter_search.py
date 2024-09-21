@@ -9,8 +9,11 @@ from evaluation import compute_metrics
 
 def objective(trial):
 
-    if not torch.cuda.is_available():
-        raise EnvironmentError("CUDA is not available, Please make sure you have GPU for fast training")
+    # if not torch.cuda.is_available():
+    #     print("CUDA is not available, Use CPU instead")
+    #     device = torch.device("cpu")
+    # else:
+    #     device = torch.device("cuda")
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Suggest hyperparameters for this trial
