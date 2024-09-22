@@ -33,7 +33,6 @@ stages:
     - train.py
     outs:
     - models/fine_tuned_igbo_sentiment/
-    - results/checkpoint-1274/
     - results/metrics.txt
   evaluation:
     cmd: python evaluation.py
