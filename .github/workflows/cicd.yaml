@@ -44,6 +44,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # Set your AWS region here
 
+      # Step 5: Setup CML
+      - name: Setup CML
+        uses: iterative/setup-cml@v1
+      
       # Step 5: Verify DVC Installation
       - name: Verify DVC Installation
         run: |
@@ -64,12 +68,15 @@ jobs:
         run: |
           # Model Performance Report
           ## Run params diff, if it fails, continue
-          dvc params diff main >> report.md || true
+          # dvc params diff main >> report.md || true
           ## Run metrics show, if it fails, continue
           dvc metrics show >> report.md || true
           ## Compare metrics with the main branch, if it fails, continue
-          git fetch --prune || true
-          dvc metrics diff main >> report.md || true
+          # git fetch --prune || true
+          # dvc metrics diff main >> report.md || true
+          ## Print report
+          echo "## Training metrics" >> report.md
+          cat report.md
           cml comment create report.md
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
