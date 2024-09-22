@@ -6,3 +6,5 @@ models
 __pycache__
 pm_search
 env
+/best_hyperparameters.json
+/evaluation_results.json

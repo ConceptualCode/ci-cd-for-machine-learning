@@ -42,9 +42,12 @@ def train_model():
     with open("best_hyperparameters.json", "r") as f:
         best_params = json.load(f)
 
-    #check if CUDA is available
-    if not torch.cuda.is_available():
-        raise EnvironmentError("CUDA is not available, Please make sure sure you have a GPU enabled environment")
+    # #check if CUDA is available
+    # if not torch.cuda.is_available():
+    #     print("CUDA is not available")
+    #     device = torch.device("cpu")
+    # else:
+    #     device = torch.device("cuda")
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

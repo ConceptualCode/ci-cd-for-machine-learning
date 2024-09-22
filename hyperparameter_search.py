@@ -9,13 +9,16 @@ from evaluation import compute_metrics
 
 def objective(trial):
 
-    if not torch.cuda.is_available():
-        raise EnvironmentError("CUDA is not available, Please make sure you have GPU for fast training")
+    # if not torch.cuda.is_available():
+    #     print("CUDA is not available, Use CPU instead")
+    #     device = torch.device("cpu")
+    # else:
+    #     device = torch.device("cuda")
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Suggest hyperparameters for this trial
     learning_rate = trial.suggest_loguniform('learning_rate', 1e-5, 5e-4)
-    num_train_epochs = trial.suggest_int('num_train_epochs', 2, 5)
+    num_train_epochs = trial.suggest_int('num_train_epochs', 1, 1)
     per_device_batch_size = trial.suggest_categorical('per_device_batch_size', [8, 16, 32])
 
     # Load dataset and model
@@ -73,7 +76,7 @@ def objective(trial):
 
 if __name__ =="__main__":
     study = optuna.create_study(direction='maximize', pruner=optuna.pruners.MedianPruner())
-    study.optimize(objective, n_trials=5)
+    study.optimize(objective, n_trials=1)
 
     with open("best_hyperparameters.json", "w") as f:
         json.dump(study.best_params, f)

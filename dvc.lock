@@ -2,24 +2,24 @@ schema: '2.0'
 stages:
   preprocess:
     cmd: python data_preprocess.py --input-dir data/raw/shmuhammad_AfriSenti-twitter-sentiment/
-      --output-dir /home/tonyai/CICD-ML/preprocessed_data/
+      --output-dir preprocessed_data/
     deps:
     - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_test.csv
       hash: md5
-      md5: 5de3d43353162ed282b5ead7c81ea48f
-      size: 196915
+      md5: 6f0ef4ea1b5b93f3e86e31ba20461991
+      size: 200598
     - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_train.csv
       hash: md5
-      md5: 790c5ff01020a0db640b6a636bd1f9de
-      size: 802976
+      md5: 68605a4f315f94acfd3e81b5e1f126d1
+      size: 813169
     - path: data/raw/shmuhammad_AfriSenti-twitter-sentiment/ibo_validation.csv
       hash: md5
-      md5: 78a80987b27380cfe6ba4d040708df67
-      size: 144928
+      md5: 5ec93ffb7f3a2d9a5f400065a51df914
+      size: 146770
     - path: data_preprocess.py
       hash: md5
-      md5: 150f0201c7419fae85c96d3a298f5e28
-      size: 3002
+      md5: 7bd9583144f648bb5a901adaa814d51d
+      size: 3079
     outs:
     - path: preprocessed_data/test.csv
       hash: md5
@@ -36,14 +36,19 @@ stages:
   hyperparameter_search:
     cmd: python hyperparameter_search.py
     deps:
+    - path: checkpoint-1520000/
+      hash: md5
+      md5: 1ac65a407111f9e621ae2b1b17115132.dir
+      size: 1006179354
+      nfiles: 12
     - path: evaluation.py
       hash: md5
-      md5: b6d7016a46c5348326df7383c7a9d59a
-      size: 2518
+      md5: 699b2cdb50952244c6a1ec563bcdf4ad
+      size: 2552
     - path: hyperparameter_search.py
       hash: md5
-      md5: 903ae3636d3f9f0164118156f6f22eea
-      size: 2909
+      md5: f08afa571169b1e7148ca2764291065c
+      size: 3037
     - path: preprocessed_data/train.csv
       hash: md5
       md5: 9e29377a2b380f4e6668134e1635bff2
@@ -55,19 +60,24 @@ stages:
     outs:
     - path: best_hyperparameters.json
       hash: md5
-      md5: a6734e7cb584935e06942702a7ce3685
-      size: 93
+      md5: 15103fe7df23b46cc0322bd4e3389509
+      size: 92
   train:
     cmd: python train.py
     deps:
     - path: best_hyperparameters.json
       hash: md5
-      md5: a6734e7cb584935e06942702a7ce3685
-      size: 93
+      md5: 15103fe7df23b46cc0322bd4e3389509
+      size: 92
+    - path: checkpoint-1520000/
+      hash: md5
+      md5: 1ac65a407111f9e621ae2b1b17115132.dir
+      size: 1006179354
+      nfiles: 12
     - path: evaluation.py
       hash: md5
-      md5: b6d7016a46c5348326df7383c7a9d59a
-      size: 2518
+      md5: 699b2cdb50952244c6a1ec563bcdf4ad
+      size: 2552
     - path: preprocessed_data/test.csv
       hash: md5
       md5: b442abff3ef82b41d3ae88f2554f1112
@@ -82,16 +92,32 @@ stages:
       size: 96259
     - path: train.py
       hash: md5
-      md5: ebfd738adcbb7d3450dbe5f9e57bde5e
-      size: 3564
+      md5: 35dae112bd4df5e39aad4337a8cda346
+      size: 3696
     outs:
     - path: models/fine_tuned_igbo_sentiment/
       hash: md5
-      md5: f76756fef338129039deb7bdd8e5d0d9.dir
+      md5: f29a9a691ab29af0e6d6f4c6bbec0a28.dir
       size: 335407213
       nfiles: 6
-    - path: results/
+    - path: results/metrics.txt
       hash: md5
-      md5: 403261b9b5d98aaa3cb0e21b4b7d1094.dir
-      size: 1003174229
-      nfiles: 13
+      md5: 9f9c0914a2e42bd1c0900d5185bb0937
+      size: 282
+  evaluation:
+    cmd: python evaluation.py
+    deps:
+    - path: models/fine_tuned_igbo_sentiment/
+      hash: md5
+      md5: f29a9a691ab29af0e6d6f4c6bbec0a28.dir
+      size: 335407213
+      nfiles: 6
+    - path: preprocessed_data/test.csv
+      hash: md5
+      md5: b442abff3ef82b41d3ae88f2554f1112
+      size: 195080
+    outs:
+    - path: evaluation_results.json
+      hash: md5
+      md5: bb73237d0488fddc840de8b57d6239dc
+      size: 310

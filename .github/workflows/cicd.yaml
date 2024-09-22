@@ -15,36 +15,68 @@ jobs:
   train-and-report:
     runs-on: ubuntu-latest 
     timeout-minutes: 50400 # 35 days
+    
     steps:
+      # Step 1: Checkout the code
       - uses: actions/checkout@v3
+
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.10'
+
+      # Step 3: Install DVC and Python dependencies
+      - name: Install DVC and dependencies
         run: |
           sudo apt-get update
           sudo apt-get install python3-pip -y
           python3 -m pip install --upgrade pip  # Ensure pip is updated
           pip install dvc==3.53.2  # Install DVC version 3.53.2
+          pip install 'dvc[s3]==3.53.2'  # Install DVC with S3 support
+          pip install -r requirements.txt  # Install project dependencies
+
+        # Step 4: Configure AWS Credentials (Use GitHub Action for AWS)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Set your AWS region here
+
+      # Step 5: Setup CML
+      - name: Setup CML
+        uses: iterative/setup-cml@v1
+      
+      # Step 5: Verify DVC Installation
       - name: Verify DVC Installation
         run: |
           dvc --version
           which dvc
+
+      # Step 6: Train model
       - name: Train model
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          dvc pull data
-          pip install -r requirements.txt
-          dvc repro
+          dvc pull  # Pull DVC tracked data from S3
+          dvc repro  # Run the DVC pipeline
+
+      # Step 7: Create CML report
       - name: Create CML report
         run: |
           # Model Performance Report
-          ## Training metrics
-          $(dvc params diff main --show-md)
-          ## Print metrics of the current branch
-          dvc metrics show --md >> report.md
-          # Compare metrics with the main branch
-          git fetch --prune
-          dvc metrics diff --md main >> report.md
+          ## Run params diff, if it fails, continue
+          # dvc params diff main >> report.md || true
+          ## Run metrics show, if it fails, continue
+          dvc metrics show >> report.md || true
+          ## Compare metrics with the main branch, if it fails, continue
+          # git fetch --prune || true
+          # dvc metrics diff main >> report.md || true
+          ## Print report
+          echo "## Training metrics" >> report.md
+          cat report.md
           cml comment create report.md
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

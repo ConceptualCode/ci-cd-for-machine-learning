@@ -37,8 +37,8 @@ def evaluate_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Load the fine-tuned model and tokenizer
-    model = RobertaForSequenceClassification.from_pretrained("results/checkpoint-1911")
-    tokenizer = RobertaTokenizer.from_pretrained("results/checkpoint-1911")
+    model = RobertaForSequenceClassification.from_pretrained("models/fine_tuned_igbo_sentiment")
+    tokenizer = RobertaTokenizer.from_pretrained("models/fine_tuned_igbo_sentiment")
     
     # Move model to GPU
     model.to(device)
@@ -47,7 +47,7 @@ def evaluate_model():
     test_dataset = load_dataset('csv', data_files='preprocessed_data/test.csv')
     
     # Tokenize the test dataset
-    test_dataset = test_dataset.map(lambda x: tokenizer(x['tweet'], padding="max_length", truncation=True), batched=True)
+    test_dataset = test_dataset.map(lambda x: tokenizer(x['tweet'], padding="max_length", max_length=512, truncation=True), batched=True)
     test_dataset = test_dataset.rename_column("label", "labels")
     test_dataset.set_format("torch", columns=["input_ids", "attention_mask", "labels"])
     
