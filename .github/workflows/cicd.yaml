@@ -63,13 +63,13 @@ jobs:
       - name: Create CML report
         run: |
           # Model Performance Report
-          ## Training metrics
-          $(dvc params diff main --show-md)
-          ## Print metrics of the current branch
-          dvc metrics show --md >> report.md
-          # Compare metrics with the main branch
-          git fetch --prune
-          dvc metrics diff --md main >> report.md
+          ## Run params diff, if it fails, continue
+          dvc params diff main >> report.md || true
+          ## Run metrics show, if it fails, continue
+          dvc metrics show >> report.md || true
+          ## Compare metrics with the main branch, if it fails, continue
+          git fetch --prune || true
+          dvc metrics diff main >> report.md || true
           cml comment create report.md
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
